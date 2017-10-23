@@ -1,0 +1,146 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:backgroundTint="@color/white"
+
+    >
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageButton
+            android:id="@+id/img"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="#F9F9F9"
+            android:soundEffectsEnabled="true"
+            android:src="@drawable/img" />
+
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/fullName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:hint="FullName"
+            android:inputType="textCapWords"
+            android:padding="18dp"
+            android:textSize="16sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/EmailId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/txtpass2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Passowrd"
+            android:inputType="textPassword"
+            android:padding="10dp"
+
+            android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/txtbirth"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="BIETHDAY"
+            android:inputType="text"
+            android:padding="10dp"
+            android:clickable="true"
+            android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnsignUp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="3dp"
+            android:text="SIGNUP"
+            android:background="#00A2E8"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+ <LinearLayout
+     android:orientation="horizontal"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content">
+
+
+     <TextView
+         android:id="@+id/txtHAV"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:layout_marginLeft="25dp"
+         android:layout_marginTop="5dp"
+         android:padding="15dp"
+         android:text="Already Have an account ?"
+         android:textSize="16sp" />
+
+     <TextView
+         android:id="@+id/txtsigIN"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="14dp"
+         android:text="SIGN IN"
+         android:layout_marginTop="5dp"
+         android:clickable="true"
+         android:textColor="#000"
+         android:textSize="13sp" />
+ </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

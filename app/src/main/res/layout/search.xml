@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+   <LinearLayout
+       android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+       <android.support.v7.widget.Toolbar
+           android:id="@+id/toolbar"
+           android:layout_width="match_parent"
+           android:layout_height="?actionBarSize"
+           android:background="#00A2E8"
+           >
+
+
+
+           <TextView
+               android:id="@+id/txtview"
+               style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+               android:layout_width="wrap_content"
+               android:layout_height="55dp"
+               android:background="?attr/selectableItemBackground"
+               android:drawablePadding="8dp"
+               android:gravity="center"
+               android:layout_marginLeft="105dp"
+               android:paddingLeft="16dp"
+               android:paddingRight="16dp"
+               android:text="nearby places"
+               android:textColor="#fff"
+               android:textAllCaps="true"
+               />
+
+
+       </android.support.v7.widget.Toolbar>
+
+       <SearchView
+           android:id="@+id/SearchView"
+           android:iconifiedByDefault="true"
+           android:queryHint="Search Here"
+           android:layout_width="250dp"
+           android:layout_height="50dp"
+           android:layout_marginTop="20dp"
+           android:gravity="center"
+           android:layout_marginLeft="60dp">
+
+
+       </SearchView>
+
+
+       <ListView
+           android:id="@+id/listfavorate"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_gravity="center"
+           android:layout_marginBottom="16dp"
+           android:layout_marginTop="30dp"
+           android:gravity="center"
+           android:padding="8dp"
+           android:scrollbars="none" />
+
+
+       <ListView
+        android:id="@+id/listnearby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:scrollbars="none" />
+
+
+</LinearLayout>
+
+
+
+
+
+</ScrollView>
