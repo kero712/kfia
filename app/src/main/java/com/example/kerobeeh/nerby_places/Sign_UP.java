@@ -27,7 +27,8 @@ public class Sign_UP extends Fragment {
     EditText txtfullname, txtemail, txt2password, txtbirthday;
     TextView txtalready, txtsigin2;
     Button btnsignup;
-   // private DB sql = new DB(this);
+
+   private DB sql;
 
 
     FragmentManager fragmentManager;
@@ -37,7 +38,7 @@ public class Sign_UP extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.sign_up, container, false);
-
+        sql = new DB(getActivity());
 
         final int CAMERA_REQUEST;
         CAMERA_REQUEST = 100;
@@ -76,7 +77,7 @@ public class Sign_UP extends Fragment {
             @Override
             public void onClick(View view) {
 
-             //   boolean result = sql.insertdata(txtemail.getText().toString(),txt2password.getText().toString(),txtfullname.getText().toString(),txt2password.getText().toString());
+               boolean result = sql.insertdata(txtfullname.getText().toString(),txtemail.getText().toString(),txt2password.getText().toString(),txtbirthday.getText().toString());
 
                   fragmentManager.beginTransaction().replace(R.id.framCont,new Sign_in(), "Sign_in").commit();
                   //  Toast.makeText(Sign_UP.this ,"done" , Toast.LENGTH_SHORT).show();

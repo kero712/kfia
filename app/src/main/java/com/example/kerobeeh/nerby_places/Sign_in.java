@@ -21,13 +21,13 @@ public class Sign_in extends Fragment {
     FragmentManager fragmentManager;
     View view;
 
-     //DB sql =new DB(this);
+     DB sql;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.sing_in,container,false);
-
+        sql =new DB(getActivity());
         fragmentManager=getFragmentManager();
 
 
@@ -44,7 +44,10 @@ public class Sign_in extends Fragment {
 
             @Override
             public void onClick(View view) {
-fragmentManager.beginTransaction().replace(R.id.framCont,new search(), "search").commit();
+
+                boolean result=sql.ch(txtuser.getText().toString(),txtpassword.getText().toString());
+
+           fragmentManager.beginTransaction().replace(R.id.framCont,new search(), "search").commit();
 
                 /*
 

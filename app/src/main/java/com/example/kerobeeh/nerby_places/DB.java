@@ -28,7 +28,7 @@ public class DB extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertdata(String email, int birthday ,String name, String pass) {
+    public boolean insertdata(String email, String birthday , String name, String pass) {
 
         SQLiteDatabase dp = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
