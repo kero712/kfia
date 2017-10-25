@@ -2,8 +2,10 @@ package com.example.kerobeeh.nerby_places;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -13,16 +15,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionBarContainer;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.kerobeeh.nerby_places.Place_model.PlaceModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -33,6 +45,7 @@ public class search extends Fragment implements   SearchView.OnQueryTextListener
     SearchView Search;
     ListView listfav, listnear;
     View view;
+    ProgressDialog progressDialog;
     static ArrayList<ListItem> favourate, nearbay;
     Array_adapter array_adapter_favourate, array_adapter_nearbay;
 
@@ -78,9 +91,74 @@ public class search extends Fragment implements   SearchView.OnQueryTextListener
         //------------------------------------
 
         
-      //  Search = (SearchView) view.findViewById(R.id.SearchView);
-        //Search.setOnQueryTextListener((SearchView.OnQueryTextListener) this);
+        Search = (SearchView) view.findViewById(R.id.SearchView);
+        Search.setOnQueryTextListener((SearchView.OnQueryTextListener) this);
+         Search.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type="+Search.getText().tostring"&keyword=cruise&key=AIzaSyA9VWRXeMF5iK0FYhXWChN9Lq7_PkefjGg";
 
+             }
+         });
+        class GetPlaces extends AsyncTask<String , Void ,PlaceModel[] > {
+
+            protected void onPreExecute() {
+
+                progressDialog =new ProgressDialog(PlaceSearch.this);
+                progressDialog.setMessage("loading.....");
+                progressDialog.show();
+            }
+            OkHttpClient client = new OkHttpClient();
+
+            String run(String url) throws IOException {
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+                Response response = client.newCall(request).execute();
+
+                return response.body().string();
+            }
+
+            protected PlaceModel[] doInBackground(String... url) {
+                try {
+                    String s = run(url[0]);
+                    Log.d("hesham", s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray jsonArray = jsonObject.getJSONArray("results");
+
+                    placemodels = gson.fromJson(jsonArray.toString(), PlaceModel[].class);
+                    Log.d("zamel", "doInBackground: "+placemodels.length);
+                    return placemodels;
+
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            protected void onPostExecute(PlaceModel[]placesModels) {
+                progressDialog.dismiss();
+                if(placesModels!=null) {
+                    PlaceAdapter    placesadapter2 = new PlaceAdapter(PlaceSearch.this, placemodels);
+                    lstplaces.setAdapter(placesadapter2);
+                    lstplaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent intent =new Intent(PlaceSearch.this,row_details.class);
+                            intent.putExtra("placemodels",(Serializable) placemodels[i]);
+                            startActivity(intent);
+
+                        }
+                    });
+
+                }
+            }
+        }
 
 
 
