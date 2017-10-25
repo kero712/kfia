@@ -44,7 +44,12 @@ public class Sign_in extends Fragment {
 
             @Override
             public void onClick(View view) {
-/*
+fragmentManager.beginTransaction().replace(R.id.framCont,new search(), "search").commit();
+
+                /*
+
+
+
                boolean result=sql.ch(txtuser.getText().toString(),txtpassword.getText().toString());
                 if(result){
                    // Toast.makeText(getApplicationContext(), "Login successful, redirecting to Home Page.", Toast.LENGTH_LONG).show();

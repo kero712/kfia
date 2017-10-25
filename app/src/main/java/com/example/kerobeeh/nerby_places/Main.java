@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 
 public class Main extends Activity {
 
-    FragmentManager fragmentManager;
+    static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -17,21 +17,34 @@ public class Main extends Activity {
 
         fragmentManager = getFragmentManager();
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.framCont,new Sign_in(),"sign_in")
+                    .replace(R.id.framCont, new Sign_in(), "sign_in")
                     .commit();
         }
+    }
 
 
 
 
+        public static void bC(){
+
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.framCont,new Sign_in(),"sign_in")
+                .commit();
+    }
 
 
+    public static void FA(){
 
-
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.framCont,new Favourite(),"Favourite")
+                .commit();
+    }
 
     }
-}
+
 
