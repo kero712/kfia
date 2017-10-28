@@ -26,8 +26,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.kerobeeh.nerby_places.Adapters.NearPlacesAdapter;
 import com.example.kerobeeh.nerby_places.Place_model.PlaceModel;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,21 +41,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
-public class search extends Fragment implements   SearchView.OnQueryTextListener {
 
-    ImageView imgfavo ,imgOut;
+public class search extends Fragment  {
+
+    ImageView imgfavo, imgOut;
     SearchView Search;
     ListView listfav, listnear;
     View view;
     ProgressDialog progressDialog;
-    static ArrayList<ListItem> favourate, nearbay;
-    Array_adapter array_adapter_favourate, array_adapter_nearbay;
+
+//    Array_adapter array_adapter_favourate, array_adapter_nearbay;
 
 
-          FragmentManager FragmentManager;
-
-
+    FragmentManager FragmentManager;
 
 
     @Nullable
@@ -64,7 +69,7 @@ public class search extends Fragment implements   SearchView.OnQueryTextListener
 
         imgfavo = (ImageView) view.findViewById(R.id.imgfav);
         imgOut = (ImageView) view.findViewById(R.id.imgout);
-
+        listnear=(ListView)view.findViewById(R.id.listnearby) ;
 
         imgfavo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,180 +88,97 @@ public class search extends Fragment implements   SearchView.OnQueryTextListener
                 Main.bC();
 
 
-
             }
         });
 
 
         //------------------------------------
 
-        
+
         Search = (SearchView) view.findViewById(R.id.SearchView);
-        Search.setOnQueryTextListener((SearchView.OnQueryTextListener) this);
-         Search.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type="+Search.getText().tostring"&keyword=cruise&key=AIzaSyA9VWRXeMF5iK0FYhXWChN9Lq7_PkefjGg";
 
-             }
-         });
-        class GetPlaces extends AsyncTask<String , Void ,PlaceModel[] > {
-
-            protected void onPreExecute() {
-
-                progressDialog =new ProgressDialog(PlaceSearch.this);
-                progressDialog.setMessage("loading.....");
-                progressDialog.show();
-            }
-            OkHttpClient client = new OkHttpClient();
-
-            String run(String url) throws IOException {
-                Request request = new Request.Builder()
-                        .url(url)
-                        .build();
-
-                Response response = client.newCall(request).execute();
-
-                return response.body().string();
+        Search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type="+query+"&key=AIzaSyCyw7cfzROdyhpUO6Z3eQwymNHdjU9j2tU";
+                Log.d("zaamel", "onQueryTextSubmit: "+url);
+                GetPlacesFromWeb getPlacesFromWeb=new GetPlacesFromWeb();
+                getPlacesFromWeb.execute(url);
+                return true;
             }
 
-            protected PlaceModel[] doInBackground(String... url) {
-                try {
-                    String s = run(url[0]);
-                    Log.d("hesham", s);
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONArray jsonArray = jsonObject.getJSONArray("results");
-
-                    placemodels = gson.fromJson(jsonArray.toString(), PlaceModel[].class);
-                    Log.d("zamel", "doInBackground: "+placemodels.length);
-                    return placemodels;
-
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
-
-            protected void onPostExecute(PlaceModel[]placesModels) {
-                progressDialog.dismiss();
-                if(placesModels!=null) {
-                    PlaceAdapter    placesadapter2 = new PlaceAdapter(PlaceSearch.this, placemodels);
-                    lstplaces.setAdapter(placesadapter2);
-                    lstplaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Intent intent =new Intent(PlaceSearch.this,row_details.class);
-                            intent.putExtra("placemodels",(Serializable) placemodels[i]);
-                            startActivity(intent);
-
-                        }
-                    });
-
-                }
-            }
-        }
+        });
 
 
 
 
-  //-----------------------------------
-        favourate = new ArrayList<ListItem>();
-        array_adapter_favourate = new Array_adapter(getActivity(), R.layout.fav_row);
-        listfav = (ListView) view.findViewById(R.id.listfavorate);
-        favourate.add(new ListItem("hello"));
-        listfav.setAdapter(array_adapter_favourate);
-
-        //----------------------------------
 
 
-        nearbay = new ArrayList<ListItem>();
-        array_adapter_nearbay = new Array_adapter(getActivity(), R.layout.near_row);
-        listnear = (ListView) view.findViewById(R.id.listnearby);
-        nearbay.add(new ListItem(" yarb tt3ml"));
-        listnear.setAdapter(array_adapter_nearbay);
 
 
         return view;
     }
+    private   class GetPlacesFromWeb extends AsyncTask<String, Void, PlaceModel[]> {
+        @Override
+        protected void onPreExecute() {
+            progressDialog=new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading ... ");
+            progressDialog.show();
+        }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
+        OkHttpClient client = new OkHttpClient();
+
+        String run(String url) throws IOException {
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        }
+
+        @Override
+        protected void onPostExecute(final PlaceModel[] placeModels) {
+            progressDialog.dismiss();
+            if (placeModels != null) {
+
+                NearPlacesAdapter nearPlacesAdapter=new NearPlacesAdapter(getActivity(),placeModels);
+                listnear.setAdapter(nearPlacesAdapter);
+                listnear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        // Toast.makeText(search.this, placeModels[i].getName(), Toast.LENGTH_SHORT).show();
+                        FragmentManager.beginTransaction().replace(R.id.framCont,new PlaceDetailsActivity() ,"PlaceDetailsActivity").commit();
+                    }
+                });
+            }
+        }
+
+        @Override
+        protected PlaceModel[] doInBackground(String... url) {
+            try {
+                String s = run(url[0]);
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray jsonArray = jsonObject.getJSONArray("results");
+                final PlaceModel[] placeModels;
+                placeModels = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
+                return placeModels;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
 
 
 
 
-
-        return false;
-    }
-
-
-
-
-    public static class Array_adapter extends ArrayAdapter {
-
-
-        public Array_adapter(@NonNull Context context, @LayoutRes int resource) {
-            super(context, resource);
-
-
-        }
-
-        @Override
-        public int getCount() {
-            return favourate.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return favourate.get(position).Name;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(final int position, View view, @NonNull ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            final View v = inflater.inflate(R.layout.fav_row, parent, false);
-
-            ImageView maps = (ImageView) v.findViewById(R.id.imagemaps);
-            ImageView img = (ImageView) v.findViewById(R.id.imgview);
-            TextView title = (TextView) v.findViewById(R.id.titleview);
-            TextView desc = (TextView) v.findViewById(R.id.descview);
-
-            title.setText(favourate.get(position).Name);
-
-           //--------------------------------------
-
-
-            final View v2 = inflater.inflate(R.layout.near_row, parent, false);
-
-            ImageView maps2 = (ImageView) v2.findViewById(R.id.imagemaps2);
-            ImageView img2 = (ImageView) v2.findViewById(R.id.imgview2);
-            TextView title2 = (TextView) v2.findViewById(R.id.titleview2);
-            TextView desc2 = (TextView) v2.findViewById(R.id.descview2);
-
-            title.setText(nearbay.get(position).Name);
-
-
-
-            return v2;
-        }
-
-    }
 
 
 }
