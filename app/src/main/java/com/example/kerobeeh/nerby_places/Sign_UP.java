@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -77,12 +78,22 @@ public class Sign_UP extends Fragment {
             @Override
             public void onClick(View view) {
 
-               boolean result = sql.insertdata(txtfullname.getText().toString(),txtemail.getText().toString(),txt2password.getText().toString(),txtbirthday.getText().toString());
 
-                  fragmentManager.beginTransaction().replace(R.id.framCont,new Sign_in(), "Sign_in").commit();
-                  //  Toast.makeText(Sign_UP.this ,"done" , Toast.LENGTH_SHORT).show();
 
-                  //  Toast.makeText(Sign_UP.this ,"erro" , Toast.LENGTH_SHORT).show();
+                boolean result = sql.insertdata(txtfullname.getText().toString(),txtemail.getText().toString(),txt2password.getText().toString(),txtbirthday.getText().toString());
+
+                if (result) {
+
+                    fragmentManager.beginTransaction().replace(R.id.framCont,new Sign_in(), "Sign_in").commit();
+                    Toast.makeText(getActivity() ,"done" , Toast.LENGTH_SHORT).show();
+
+
+                }else {
+                    Toast.makeText(getActivity(),"erro" , Toast.LENGTH_SHORT).show();
+
+                }
+
+
                 }
 
 

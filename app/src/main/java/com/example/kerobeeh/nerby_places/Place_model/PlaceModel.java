@@ -47,8 +47,8 @@ public class PlaceModel {
     @Expose
     private Integer priceLevel;
 
-    public Geometry getGeometry() {
-        return geometry;
+    public static Geometry getGeometry() {
+        return getGeometry();
     }
 
     public void setGeometry(Geometry geometry) {

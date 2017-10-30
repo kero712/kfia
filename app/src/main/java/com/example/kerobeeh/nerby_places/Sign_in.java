@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 public class Sign_in extends Fragment {
@@ -47,15 +47,9 @@ public class Sign_in extends Fragment {
 
                 boolean result=sql.ch(txtuser.getText().toString(),txtpassword.getText().toString());
 
-           fragmentManager.beginTransaction().replace(R.id.framCont,new search(), "search").commit();
 
-                /*
-
-
-
-               boolean result=sql.ch(txtuser.getText().toString(),txtpassword.getText().toString());
                 if(result){
-                   // Toast.makeText(getApplicationContext(), "Login successful, redirecting to Home Page.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Login successful, redirecting to Home Page.", Toast.LENGTH_LONG).show();
                     fragmentManager.beginTransaction().replace(R.id.framCont,new search(),"search").commit();
 
 
@@ -63,7 +57,7 @@ public class Sign_in extends Fragment {
                     Toast.makeText(getActivity(), "Invalid credentials, please try again.", Toast.LENGTH_LONG).show();
                 }
 
-                */
+
             }
         });
 

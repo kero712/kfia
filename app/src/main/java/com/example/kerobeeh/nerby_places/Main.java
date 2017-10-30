@@ -37,13 +37,7 @@ public class Main extends Activity {
     }
 
 
-    public static void FA(){
 
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.framCont,new Favourite(),"Favourite")
-                .commit();
-    }
 
     }
 

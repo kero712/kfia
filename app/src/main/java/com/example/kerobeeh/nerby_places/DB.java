@@ -17,7 +17,7 @@ public class DB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table sign (id INTEGER PRIMARY KEY AUTOINCREMENT , image TEXT,name TEXT, birthday TEXT, email TEXT ,password TEXT )");
+        db.execSQL("create table sign (id INTEGER PRIMARY KEY AUTOINCREMENT ,name TEXT, email TEXT ,password TEXT , birthday TEXT)");
 
     }
 
@@ -28,7 +28,7 @@ public class DB extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertdata(String email, String birthday , String name, String pass) {
+    public boolean insertdata(String name ,String email, String pass, String birthday) {
 
         SQLiteDatabase dp = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
